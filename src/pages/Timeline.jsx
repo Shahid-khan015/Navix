@@ -2,491 +2,197 @@ import { useState } from 'react';
 import { Calendar, Clock, Bell, BookOpen, Award, MapPin, AlertCircle, CheckCircle } from 'lucide-react';
 
 const Timeline = () => {
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const [filter, setFilter] = useState('all');
+  const [selectedPath, setSelectedPath] = useState('engineering');
 
-  const timelineEvents = [
-    // January 2024
-    {
-      id: 1,
-      title: 'JEE Main Session 1 Registration',
-      description: 'Registration for JEE Main Session 1 begins',
-      date: '2024-01-15',
-      endDate: '2024-02-15',
-      type: 'exam',
-      category: 'Engineering',
-      importance: 'high',
-      status: 'upcoming',
-      location: 'Online',
-      website: 'https://jeemain.nta.nic.in'
-    },
-    {
-      id: 2,
-      title: 'NSP Scholarship Applications Open',
-      description: 'National Scholarship Portal opens for fresh applications',
-      date: '2024-01-10',
-      endDate: '2024-03-31',
-      type: 'scholarship',
-      category: 'Financial Aid',
-      importance: 'high',
-      status: 'active',
-      location: 'Online',
-      website: 'https://scholarships.gov.in'
-    },
-    
-    // February 2024
-    {
-      id: 3,
-      title: 'Gujarat Board (GSEB) Exam Forms',
-      description: 'GSEB Class 12 examination form submission deadline',
-      date: '2024-02-28',
-      type: 'exam',
-      category: 'Board Exams',
-      importance: 'high',
-      status: 'upcoming',
-      location: 'Gujarat',
-      website: 'https://gseb.org'
-    },
-    
-    // March 2024
-    {
-      id: 4,
-      title: 'NEET Registration Opens',
-      description: 'NEET 2024 registration begins for medical aspirants',
-      date: '2024-03-01',
-      endDate: '2024-03-31',
-      type: 'exam',
-      category: 'Medical',
-      importance: 'high',
-      status: 'upcoming',
-      location: 'Online',
-      website: 'https://neet.nta.nic.in'
-    },
-    {
-      id: 5,
-      title: 'Board Exam Season Begins',
-      description: 'CBSE and State Board exams commence across India',
-      date: '2024-03-15',
-      endDate: '2024-04-30',
-      type: 'exam',
-      category: 'Board Exams',
-      importance: 'high',
-      status: 'upcoming',
-      location: 'Pan India',
-      website: 'https://cbse.gov.in'
-    },
-    
-    // April 2024
-    {
-      id: 6,
-      title: 'JEE Main Session 1 Exam',
-      description: 'JEE Main Session 1 examination dates',
-      date: '2024-04-06',
-      endDate: '2024-04-20',
-      type: 'exam',
-      category: 'Engineering',
-      importance: 'high',
-      status: 'upcoming',
-      location: 'Various Centers',
-      website: 'https://jeemain.nta.nic.in'
-    },
-    {
-      id: 7,
-      title: 'CLAT Registration Deadline',
-      description: 'Last date for CLAT (Common Law Admission Test) registration',
-      date: '2024-04-30',
-      type: 'exam',
-      category: 'Law',
-      importance: 'medium',
-      status: 'upcoming',
-      location: 'Online',
-      website: 'https://consortiumofnlus.ac.in'
-    },
-    
-    // May 2024
-    {
-      id: 8,
-      title: 'NEET Examination',
-      description: 'National Eligibility cum Entrance Test for medical courses',
-      date: '2024-05-05',
-      type: 'exam',
-      category: 'Medical',
-      importance: 'high',
-      status: 'upcoming',
-      location: 'Various Centers',
-      website: 'https://neet.nta.nic.in'
-    },
-    {
-      id: 9,
-      title: 'CLAT Examination',
-      description: 'Common Law Admission Test for law courses',
-      date: '2024-05-12',
-      type: 'exam',
-      category: 'Law',
-      importance: 'medium',
-      status: 'upcoming',
-      location: 'Various Centers',
-      website: 'https://consortiumofnlus.ac.in'
-    },
-    
-    // June 2024
-    {
-      id: 10,
-      title: 'JEE Advanced Registration',
-      description: 'Registration for JEE Advanced (for IIT admission)',
-      date: '2024-06-01',
-      endDate: '2024-06-15',
-      type: 'exam',
-      category: 'Engineering',
-      importance: 'high',
-      status: 'upcoming',
-      location: 'Online',
-      website: 'https://jeeadv.ac.in'
-    },
-    {
-      id: 11,
-      title: 'NEET Result Declaration',
-      description: 'NEET 2024 results announced',
-      date: '2024-06-20',
-      type: 'result',
-      category: 'Medical',
-      importance: 'high',
-      status: 'upcoming',
-      location: 'Online',
-      website: 'https://neet.nta.nic.in'
-    },
-    
-    // July 2024
-    {
-      id: 12,
-      title: 'JEE Advanced Exam',
-      description: 'JEE Advanced examination for IIT admission',
-      date: '2024-07-07',
-      type: 'exam',
-      category: 'Engineering',
-      importance: 'high',
-      status: 'upcoming',
-      location: 'Various Centers',
-      website: 'https://jeeadv.ac.in'
-    },
-    {
-      id: 13,
-      title: 'NEET Counselling Round 1',
-      description: 'First round of NEET counselling begins',
-      date: '2024-07-15',
-      endDate: '2024-07-30',
-      type: 'counselling',
-      category: 'Medical',
-      importance: 'high',
-      status: 'upcoming',
-      location: 'Online',
-      website: 'https://mcc.nic.in'
-    }
-  ];
-
-  const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
-  const categories = [
-    'all', 'Engineering', 'Medical', 'Board Exams', 'Law', 'Commerce', 'Financial Aid'
-  ];
-
-  const eventTypes = [
-    { value: 'all', label: 'All Events', icon: Calendar },
-    { value: 'exam', label: 'Exams', icon: BookOpen },
-    { value: 'scholarship', label: 'Scholarships', icon: Award },
-    { value: 'result', label: 'Results', icon: CheckCircle },
-    { value: 'counselling', label: 'Counselling', icon: MapPin }
-  ];
-
-  const getFilteredEvents = () => {
-    return timelineEvents.filter(event => {
-      const eventDate = new Date(event.date);
-      const matchesMonth = eventDate.getMonth() === selectedMonth;
-      const matchesYear = eventDate.getFullYear() === selectedYear;
-      const matchesFilter = filter === 'all' || event.type === filter;
-      
-      return matchesMonth && matchesYear && matchesFilter;
-    });
-  };
-
-  const getEventIcon = (type) => {
-    switch (type) {
-      case 'exam': return BookOpen;
-      case 'scholarship': return Award;
-      case 'result': return CheckCircle;
-      case 'counselling': return MapPin;
-      default: return Calendar;
+  const roadmapData = {
+    engineering: {
+      title: 'BE in I.T',
+      college: 'Gov. Engineering College, Modasa',
+      description: 'according to you answer have concluded that you like the Technology but less interest in Maths',
+      totalFee: '75000 - 90000',
+      scholarships: ['MYSY', 'etc'],
+      jobSalary: '400K - 600K',
+      jobDescription: 'After Completing your BE, you can get the Job in many Big MNC like Infosys, TSC based on your skill expected salary for fresher can be around 400K - 600K',
+      path: [
+        { id: 'it', label: 'I.T', position: { x: 15, y: 85 }, icon: '🚀' },
+        { id: 'be', label: 'BE in I.T', position: { x: 25, y: 50 }, description: 'according to you answer have concluded that you like the Technology but less interest in Maths' },
+        { id: 'college', label: 'Gov. Engineering College, Modasa', position: { x: 50, y: 25 }, description: 'Given college is neareset college, you can se more college here → More' },
+        { id: 'fee', label: 'Fee', position: { x: 85, y: 45 }, description: 'Total estimated Fee to Complete you diploma can be around 75000 - 90000\nYou laso get the Scholorship like MYSY, etc' },
+        { id: 'job', label: 'Job', position: { x: 85, y: 75 }, description: 'After Completing your BE, you can get the Job in many Big MNC like Infosys, TSC based on your skill expected salary for fresher can be around 400K - 600K' }
+      ]
     }
   };
 
-  const getImportanceColor = (importance) => {
-    switch (importance) {
-      case 'high': return 'border-red-400 bg-red-50 text-red-800';
-      case 'medium': return 'border-yellow-400 bg-yellow-50 text-yellow-800';
-      case 'low': return 'border-blue-400 bg-blue-50 text-blue-800';
-      default: return 'border-gray-400 bg-gray-50 text-gray-800';
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'upcoming': return 'bg-blue-100 text-blue-800';
-      case 'completed': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-IN', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    });
-  };
-
-  const getDaysUntil = (dateString) => {
-    const today = new Date();
-    const eventDate = new Date(dateString);
-    const diffTime = eventDate - today;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays < 0) return 'Past event';
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Tomorrow';
-    return `${diffDays} days left`;
-  };
-
-  const upcomingEvents = timelineEvents
-    .filter(event => new Date(event.date) >= new Date())
-    .sort((a, b) => new Date(a.date) - new Date(b.date))
-    .slice(0, 5);
+  const currentRoadmap = roadmapData[selectedPath];
 
   return (
-    <div className="min-h-screen px-4 py-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Academic Timeline Tracker</h1>
-          <p className="text-gray-600">Never miss important dates for exams, scholarships, and admissions</p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 relative overflow-hidden">
+      {/* Decorative stars */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-20 left-10 text-white text-2xl">✦</div>
+        <div className="absolute top-40 right-20 text-white text-lg">✧</div>
+        <div className="absolute bottom-40 left-20 text-white text-xl">✦</div>
+        <div className="absolute top-60 left-1/4 text-white text-sm">✧</div>
+        <div className="absolute bottom-60 right-1/4 text-white text-lg">✦</div>
+        <div className="absolute top-80 right-10 text-white text-sm">✧</div>
+        <div className="absolute bottom-20 left-1/3 text-white text-xl">✦</div>
+        <div className="absolute top-32 right-1/3 text-white text-sm">✧</div>
+        
+        {/* Floating lines */}
+        <div className="absolute top-16 left-16 w-8 h-0.5 bg-white opacity-60 rotate-45"></div>
+        <div className="absolute bottom-32 right-16 w-12 h-0.5 bg-white opacity-60 -rotate-12"></div>
+        <div className="absolute top-1/2 left-8 w-6 h-0.5 bg-white opacity-60 rotate-12"></div>
+        <div className="absolute top-1/3 right-8 w-10 h-0.5 bg-white opacity-60 -rotate-45"></div>
+      </div>
 
-        {/* Quick Alerts */}
-        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl p-6 mb-8 shadow-lg">
-          <div className="flex items-center space-x-3 mb-4">
-            <AlertCircle className="w-6 h-6" />
-            <h2 className="text-xl font-semibold">Upcoming Important Events</h2>
+      <div className="relative z-10 px-4 py-8">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-white mb-4">{currentRoadmap.college}</h1>
+            <p className="text-white opacity-90">
+              Given college is neareset<br />
+              college, you can se more<br />
+              college here → More
+            </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {upcomingEvents.slice(0, 3).map(event => (
-              <div key={event.id} className="bg-white bg-opacity-20 rounded-xl p-4">
-                <h3 className="font-semibold mb-1">{event.title}</h3>
-                <p className="text-sm mb-2">{formatDate(event.date)}</p>
-                <p className="text-xs">{getDaysUntil(event.date)}</p>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Controls */}
-        <div className="grid md:grid-cols-3 gap-4 mb-8">
-          <select
-            value={selectedMonth}
-            onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-            className="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
-          >
-            {months.map((month, index) => (
-              <option key={index} value={index}>{month}</option>
-            ))}
-          </select>
+          {/* Roadmap Visualization */}
+          <div className="relative w-full h-96 mb-12">
+            {/* Connection lines */}
+            <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }}>
+              <defs>
+                <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style={{ stopColor: '#8B5CF6', stopOpacity: 0.8 }} />
+                  <stop offset="100%" style={{ stopColor: '#A78BFA', stopOpacity: 0.8 }} />
+                </linearGradient>
+              </defs>
+              
+              {/* Path connections */}
+              <path
+                d="M 15% 85% Q 25% 70% 25% 50% Q 30% 35% 50% 25% Q 65% 35% 85% 45% Q 85% 60% 85% 75%"
+                stroke="url(#pathGradient)"
+                strokeWidth="4"
+                fill="none"
+                strokeDasharray="8,4"
+                className="animate-pulse"
+              />
+            </svg>
 
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-            className="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
-          >
-            <option value={2024}>2024</option>
-            <option value={2025}>2025</option>
-          </select>
-
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
-          >
-            {eventTypes.map(type => (
-              <option key={type.value} value={type.value}>{type.label}</option>
-            ))}
-          </select>
-        </div>
-
-        {/* Event Type Tabs */}
-        <div className="flex flex-wrap gap-3 mb-8">
-          {eventTypes.map(type => {
-            const IconComponent = type.icon;
-            return (
-              <button
-                key={type.value}
-                onClick={() => setFilter(type.value)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-full font-medium transition-all duration-200 ${
-                  filter === type.value
-                    ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg'
-                    : 'bg-white text-gray-600 border border-gray-200 hover:border-purple-300 hover:text-purple-600'
-                }`}
+            {/* Roadmap nodes */}
+            {currentRoadmap.path.map((node, index) => (
+              <div
+                key={node.id}
+                className="absolute transform -translate-x-1/2 -translate-y-1/2"
+                style={{ 
+                  left: `${node.position.x}%`, 
+                  top: `${node.position.y}%`,
+                  zIndex: 10
+                }}
               >
-                <IconComponent className="w-4 h-4" />
-                <span>{type.label}</span>
-              </button>
-            );
-          })}
-        </div>
+                <div className="relative">
+                  {/* Node circle */}
+                  <div className="w-16 h-16 bg-purple-200 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+                    {node.icon ? (
+                      <span className="text-2xl">{node.icon}</span>
+                    ) : (
+                      <div className="w-8 h-8 bg-purple-500 rounded-full"></div>
+                    )}
+                  </div>
+                  
+                  {/* Node label */}
+                  <div className="absolute top-20 left-1/2 transform -translate-x-1/2 text-center">
+                    <div className="bg-white bg-opacity-90 rounded-lg px-3 py-2 shadow-lg min-w-max">
+                      <h3 className="font-bold text-gray-800 text-sm">{node.label}</h3>
+                    </div>
+                  </div>
 
-        {/* Timeline */}
-        <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-gray-800">
-            {months[selectedMonth]} {selectedYear}
-          </h2>
-
-          {getFilteredEvents().length === 0 ? (
-            <div className="text-center py-12">
-              <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-500 mb-2">No events found</h3>
-              <p className="text-gray-400">Try selecting a different month or filter</p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {getFilteredEvents()
-                .sort((a, b) => new Date(a.date) - new Date(b.date))
-                .map(event => {
-                  const IconComponent = getEventIcon(event.type);
-                  return (
-                    <div
-                      key={event.id}
-                      className={`border-l-4 ${getImportanceColor(event.importance)} rounded-r-xl p-6 shadow-lg hover:shadow-xl transition-all duration-200`}
-                    >
-                      <div className="flex items-start space-x-4">
-                        <div className="bg-white p-3 rounded-full shadow-md">
-                          <IconComponent className="w-6 h-6 text-purple-600" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between mb-3">
-                            <div>
-                              <h3 className="text-xl font-semibold text-gray-800 mb-1">{event.title}</h3>
-                              <p className="text-gray-600 mb-2">{event.description}</p>
-                            </div>
-                            <div className="text-right">
-                              <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(event.status)}`}>
-                                {event.status}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                            <div className="flex items-center space-x-2 text-sm text-gray-600">
-                              <Calendar className="w-4 h-4" />
-                              <span>
-                                {formatDate(event.date)}
-                                {event.endDate && ` - ${formatDate(event.endDate)}`}
-                              </span>
-                            </div>
-                            
-                            <div className="flex items-center space-x-2 text-sm text-gray-600">
-                              <Clock className="w-4 h-4" />
-                              <span>{getDaysUntil(event.date)}</span>
-                            </div>
-                            
-                            <div className="flex items-center space-x-2 text-sm text-gray-600">
-                              <BookOpen className="w-4 h-4" />
-                              <span>{event.category}</span>
-                            </div>
-                            
-                            <div className="flex items-center space-x-2 text-sm text-gray-600">
-                              <MapPin className="w-4 h-4" />
-                              <span>{event.location}</span>
-                            </div>
-                          </div>
-
-                          <div className="flex space-x-3">
-                            <button className="px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200">
-                              <Bell className="w-4 h-4 inline mr-2" />
-                              Set Reminder
-                            </button>
-                            {event.website && (
-                              <a
-                                href={event.website}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                              >
-                                Official Website
-                              </a>
-                            )}
-                          </div>
-                        </div>
+                  {/* Description popup */}
+                  {node.description && (
+                    <div className="absolute top-24 left-1/2 transform -translate-x-1/2 w-64 z-20">
+                      <div className="bg-purple-800 text-white rounded-lg p-4 shadow-xl">
+                        <p className="text-sm leading-relaxed whitespace-pre-line">
+                          {node.description}
+                        </p>
                       </div>
                     </div>
-                  );
-                })}
-            </div>
-          )}
-        </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
 
-        {/* Notification Settings */}
-        <div className="mt-12 bg-white rounded-2xl p-8 shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Notification Preferences</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Get Reminders For:</h3>
-              <div className="space-y-3">
-                {['Exam Registration', 'Application Deadlines', 'Exam Dates', 'Result Announcements', 'Counselling Dates'].map((item, index) => (
-                  <label key={index} className="flex items-center space-x-3">
-                    <input type="checkbox" className="rounded text-purple-600 focus:ring-purple-500" defaultChecked />
-                    <span className="text-gray-700">{item}</span>
-                  </label>
-                ))}
+          {/* Information Cards */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Course Info */}
+            <div className="bg-white bg-opacity-90 rounded-2xl p-6 shadow-lg">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">{currentRoadmap.title}</h3>
+              <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                {currentRoadmap.description}
+              </p>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <BookOpen className="w-4 h-4 text-purple-600" />
+                  <span className="text-sm text-gray-700">4 Year Degree Program</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <MapPin className="w-4 h-4 text-purple-600" />
+                  <span className="text-sm text-gray-700">Government College</span>
+                </div>
               </div>
             </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Notification Timing:</h3>
-              <div className="space-y-3">
-                <label className="flex items-center space-x-3">
-                  <input type="checkbox" className="rounded text-purple-600 focus:ring-purple-500" defaultChecked />
-                  <span className="text-gray-700">1 week before</span>
-                </label>
-                <label className="flex items-center space-x-3">
-                  <input type="checkbox" className="rounded text-purple-600 focus:ring-purple-500" defaultChecked />
-                  <span className="text-gray-700">3 days before</span>
-                </label>
-                <label className="flex items-center space-x-3">
-                  <input type="checkbox" className="rounded text-purple-600 focus:ring-purple-500" defaultChecked />
-                  <span className="text-gray-700">1 day before</span>
-                </label>
+
+            {/* Fee Information */}
+            <div className="bg-white bg-opacity-90 rounded-2xl p-6 shadow-lg">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Fee</h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-gray-600 mb-2">Total estimated Fee to Complete you diploma can be around</p>
+                  <p className="text-2xl font-bold text-green-600">₹{currentRoadmap.totalFee}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600 mb-2">You also get the Scholarship like</p>
+                  <div className="flex flex-wrap gap-2">
+                    {currentRoadmap.scholarships.map((scholarship, index) => (
+                      <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium">
+                        {scholarship}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Job Prospects */}
+            <div className="bg-white bg-opacity-90 rounded-2xl p-6 shadow-lg">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Job</h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-2xl font-bold text-purple-600">₹{currentRoadmap.jobSalary}</p>
+                  <p className="text-sm text-gray-600">Expected salary for fresher</p>
+                </div>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  {currentRoadmap.jobDescription}
+                </p>
+                <div className="flex items-center space-x-2">
+                  <CheckCircle className="w-4 h-4 text-green-600" />
+                  <span className="text-sm text-gray-700">High placement rate</span>
+                </div>
               </div>
             </div>
           </div>
-          
-          <div className="mt-6">
-            <button className="px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
-              Save Preferences
-            </button>
-          </div>
-        </div>
 
-        {/* Call to Action */}
-        <div className="mt-12 text-center">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Stay Organized, Stay Ahead!</h3>
-          <p className="text-gray-600 mb-6">
-            Enable notifications and never miss important academic deadlines again.
-          </p>
-          <button className="px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
-            Enable Push Notifications
-          </button>
+          {/* Action Buttons */}
+          <div className="text-center mt-12">
+            <div className="space-x-4">
+              <button className="px-8 py-3 bg-white text-purple-600 font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                Explore More Colleges
+              </button>
+              <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                Apply for Scholarships
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

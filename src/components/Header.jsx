@@ -10,8 +10,8 @@ const Header = ({ user, setUser }) => {
     { name: 'Home', path: '/' },
     { name: 'Aptitude', path: '/aptitude' },
     { name: 'Counselor', path: '/counselor' },
-    { name: 'Career-Info', path: '/career-info' },
-    { name: 'College-Info', path: '/college-info' },
+    { name: 'Careers', path: '/career-info' },
+    { name: 'Campus', path: '/college-info' },
     { name: 'Competitive Exam', path: '/competitive-exam' },
   ];
 

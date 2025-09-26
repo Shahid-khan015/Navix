@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import MascotAvatar from '../components/MascotAvatar';
 
 const AptitudeQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -136,11 +135,10 @@ const AptitudeQuiz = () => {
 
   if (showResults) {
     return (
-      <div className="min-h-screen px-4 py-8">
+      <div className="min-h-screen bg-gradient-to-br from-purple-300 via-purple-400 to-purple-500 px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800 mb-4">Your Career Assessment Results</h1>
-            <MascotAvatar size="medium" className="mx-auto mb-4" />
           </div>
 
           <div className={`bg-gradient-to-br ${results.details.color} rounded-2xl p-8 text-white mb-8 shadow-xl`}>
@@ -159,7 +157,7 @@ const AptitudeQuiz = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-8 shadow-lg mb-8">
+          <div className="bg-white bg-opacity-90 rounded-2xl p-8 shadow-lg mb-8">
             <h3 className="text-xl font-semibold text-gray-800 mb-6">Your Interest Distribution</h3>
             <div className="space-y-4">
               {Object.entries(results.scores).map(([stream, score]) => {
@@ -191,7 +189,7 @@ const AptitudeQuiz = () => {
           <div className="text-center space-y-4">
             <button
               onClick={resetQuiz}
-              className="px-8 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 mr-4"
+              className="px-8 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 mr-4"
             >
               Retake Quiz
             </button>
@@ -211,32 +209,32 @@ const AptitudeQuiz = () => {
   const currentAnswer = answers[question.id];
 
   return (
-    <div className="min-h-screen px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-purple-300 via-purple-400 to-purple-500 px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">Career Aptitude Assessment</h1>
-          <p className="text-gray-600">Question {currentQuestion + 1} of {questions.length}</p>
-          <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
+          <p className="text-gray-700">Question {currentQuestion + 1} of {questions.length}</p>
+          <div className="w-full bg-white bg-opacity-50 rounded-full h-2 mt-4">
             <div 
-              className="bg-purple-500 h-2 rounded-full transition-all duration-300"
+              className="bg-purple-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
             ></div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-8 shadow-lg border-4 border-blue-300 mb-8">
+        <div className="bg-purple-200 bg-opacity-80 rounded-3xl p-8 shadow-lg mb-8">
           <h2 className="text-xl font-semibold text-gray-800 mb-6">
             {question.id}. {question.question}
           </h2>
 
           <div className="space-y-4 mb-8">
-            {question.options.map((option) => (
+            {question.options.map((option, index) => (
               <label 
                 key={option.value}
-                className={`block p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                className={`block p-4 rounded-xl cursor-pointer transition-all duration-200 ${
                   currentAnswer?.value === option.value
-                    ? 'border-purple-500 bg-purple-50'
-                    : 'border-gray-200 hover:border-purple-300 hover:bg-gray-50'
+                    ? 'bg-purple-300 bg-opacity-80'
+                    : 'hover:bg-purple-300 hover:bg-opacity-50'
                 }`}
               >
                 <input
@@ -250,14 +248,16 @@ const AptitudeQuiz = () => {
                 <div className="flex items-center">
                   <div className={`w-4 h-4 rounded-full border-2 mr-3 ${
                     currentAnswer?.value === option.value
-                      ? 'border-purple-500 bg-purple-500'
-                      : 'border-gray-300'
+                      ? 'border-purple-600 bg-purple-600'
+                      : 'border-gray-400'
                   }`}>
                     {currentAnswer?.value === option.value && (
                       <div className="w-2 h-2 bg-white rounded-full mx-auto mt-0.5"></div>
                     )}
                   </div>
-                  <span className="text-gray-700 font-medium">{option.label}</span>
+                  <span className="text-gray-800 font-medium">
+                    {String.fromCharCode(97 + index)}) {option.label}
+                  </span>
                 </div>
               </label>
             ))}
@@ -269,7 +269,7 @@ const AptitudeQuiz = () => {
               disabled={!currentAnswer}
               className={`px-8 py-3 rounded-full font-semibold transition-all duration-200 ${
                 currentAnswer
-                  ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
+                  ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
             >
@@ -279,12 +279,14 @@ const AptitudeQuiz = () => {
         </div>
 
         {question.explanation && currentAnswer && (
-          <div className="bg-blue-50 rounded-xl p-6 border-l-4 border-blue-400">
-            <h3 className="font-semibold text-blue-800 mb-2">Explanation:</h3>
-            <p className="text-blue-700">
-              {question.explanation[currentAnswer.value] || 
-               "This choice reflects your interest in this particular field."}
-            </p>
+          <div className="bg-white bg-opacity-90 rounded-xl p-6">
+            <h3 className="font-semibold text-gray-800 mb-2">Explanation:</h3>
+            <div className="space-y-2 text-gray-700 text-sm">
+              <p><strong>a) Mathematics & Science</strong> – Logic, experiments, tech & research careers.</p>
+              <p><strong>b) Biology & Social Science</strong> – Life, society, health & teaching fields.</p>
+              <p><strong>c) Arts, Literature, Music</strong> – Creativity, expression, media & arts jobs.</p>
+              <p><strong>d) Business Studies, Economics</strong> – Trade, finance, management & business roles.</p>
+            </div>
           </div>
         )}
       </div>
